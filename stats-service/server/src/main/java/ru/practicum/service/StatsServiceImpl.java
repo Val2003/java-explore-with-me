@@ -29,7 +29,7 @@ public class StatsServiceImpl implements StatsService {
         App app = optionalApp.orElseGet(() -> appRepository.save(new App(hitDto.getApp())));
 
 
-        Hit hit= HitMapper.INSTANCE.toHit(hitDto);
+        Hit hit = HitMapper.INSTANCE.toHit(hitDto);
         hit.setApp(app);
         hitRepository.save(hit);
 
