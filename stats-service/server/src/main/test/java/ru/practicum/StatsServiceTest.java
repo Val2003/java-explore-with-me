@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 import ru.practicum.model.App;
-import ru.practicum.model.Hit;
+import ru.practicum.model.Request;
 import ru.practicum.repository.AppRepository;
-import ru.practicum.repository.HitRepository;
+import ru.practicum.repository.RequestRepository;
 import ru.practicum.service.StatsServiceImpl;
 
 import java.time.LocalDateTime;
@@ -28,73 +28,71 @@ import static org.mockito.Mockito.verify;
 @TestPropertySource(properties = {"db.name=test"})
 public class StatsServiceTest {
 
-    HitDto hitDto;
-    HitOutputDto hitOutputDto;
-    Hit hit;
-
-
+    RequestDto requestDto;
+    RequestOutputDto requestOutputDto;
+    Request request;
     App app;
     @InjectMocks
     private StatsServiceImpl statsService;
     @Mock
-    private HitRepository hitRepository;
+    private RequestRepository requestRepository;
     @Mock
     private AppRepository appRepository;
 
     @BeforeEach
     void setup() {
-        hit = new Hit(1, new App("main-service"), "/events/1", "192.163.0.1", LocalDateTime.now());
-        hitDto = new HitDto(1, "main-service", "/events/1", "192.163.0.1", LocalDateTime.now());
-        hitOutputDto = new HitOutputDto("main-service", "/events/1", 1L);
-        app = new App(hitDto.getApp());
+        request = new Request(1, new App("main-service"), "/events/1", "192.163.0.1", LocalDateTime.now());
+        requestDto = new RequestDto(1, "main-service", "/events/1", "192.163.0.1", LocalDateTime.now());
+        requestOutputDto = new RequestOutputDto("main-service", "/events/1", 1L);
+        app = new App(requestDto.getApp());
     }
 
     @Test
     void addRequest() {
-        Mockito.when(appRepository.findByName(hitDto.getApp()))
+        Mockito.when(appRepository.findByName(requestDto.getApp()))
                 .thenReturn(Optional.ofNullable(app));
 
-        Mockito.when(hitRepository.save(any()))
-                .thenReturn(hit);
+        Mockito.when(requestRepository.save(any()))
+                .thenReturn(request);
 
-        statsService.addHit(hitDto);
+        statsService.addRequest(requestDto);
 
-        verify(hitRepository, atMostOnce()).saveAndFlush(any());
+        verify(requestRepository, atMostOnce()).saveAndFlush(any());
     }
 
     @Test
     void getRequestsWithViews_WhenUnique() {
-        Mockito.when(hitRepository.getUniqueIpRequestsWithUri(any(), any(), any()))
-                .thenReturn(List.of(hitOutputDto));
+        Mockito.when(requestRepository.getUniqueIpRequestsWithUri(any(), any(), any()))
+                .thenReturn(List.of(requestOutputDto));
 
-        List<HitOutputDto> hitOutputDtoSaved = statsService.getHitsWithViews(LocalDateTime.now().minusDays(1),
+        List<RequestOutputDto> requestOutputDtoSaved = statsService.getRequestsWithViews(LocalDateTime.now().minusDays(1),
                 LocalDateTime.now().plusDays(1), List.of("/events/1"), true);
 
         assertAll(
-                () -> assertEquals(hitOutputDtoSaved.size(), 1),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getUri(), hit.getUri()),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getApp(), app.getName()),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getHits(), 1L)
+                () -> assertEquals(requestOutputDtoSaved.size(), 1),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getUri(), request.getUri()),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getApp(), app.getName()),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getHits(), 1L)
         );
 
-        verify(hitRepository, atMostOnce()).saveAndFlush(any());
+        verify(requestRepository, atMostOnce()).saveAndFlush(any());
     }
 
     @Test
     void getRequestsWithViews_WhenNotUnique() {
-        Mockito.when(hitRepository.getAllRequestsWithUri(any(), any(), any()))
-                .thenReturn(List.of(hitOutputDto));
+        Mockito.when(requestRepository.getAllRequestsWithUri(any(), any(), any()))
+                .thenReturn(List.of(requestOutputDto));
 
-        List<HitOutputDto> hitOutputDtoSaved = statsService.getHitsWithViews(LocalDateTime.now().minusDays(1),
+        List<RequestOutputDto> requestOutputDtoSaved = statsService.getRequestsWithViews(LocalDateTime.now().minusDays(1),
                 LocalDateTime.now().plusDays(1), List.of("/events/1"), false);
 
         assertAll(
-                () -> assertEquals(hitOutputDtoSaved.size(), 1),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getUri(), hit.getUri()),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getApp(), app.getName()),
-                () -> assertEquals(hitOutputDtoSaved.get(0).getHits(), 1L)
+                () -> assertEquals(requestOutputDtoSaved.size(), 1),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getUri(), request.getUri()),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getApp(), app.getName()),
+                () -> assertEquals(requestOutputDtoSaved.get(0).getHits(), 1L)
         );
 
-        verify(hitRepository, atMostOnce()).saveAndFlush(any());
+        verify(requestRepository, atMostOnce()).saveAndFlush(any());
     }
 }

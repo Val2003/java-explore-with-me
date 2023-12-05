@@ -1,18 +1,20 @@
-package ru.practicum.model;
+package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
-import ru.practicum.HitDto;
+import ru.practicum.RequestDto;
+import ru.practicum.model.Request;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface HitMapper {
-    HitMapper INSTANCE = Mappers.getMapper(HitMapper.class);
+public interface RequestMapper {
+    RequestMapper INSTANCE = Mappers.getMapper(RequestMapper.class);
 
     @Mapping(source = "app.name", target = "app")
-    HitDto toHitDto(Hit hit);
+
+    RequestDto toRequestDto(Request request);
 
     @Mapping(source = "app", target = "app.name")
-    Hit toHit(HitDto hitDto);
+    Request toRequest(RequestDto requestDto);
 }
