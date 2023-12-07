@@ -9,13 +9,13 @@ import java.util.List;
 
 @Service
 public interface CompilationService {
-    CompilationDto add(NewCompilationDto compilationDto);
+    CompilationDto addCompilation(NewCompilationDto compilationDto);
 
-    void delete(Long compilationId);
+    void deleteCompilation(Long compilationId);
 
-    CompilationDto get(Long compId);
+    CompilationDto getCompilation(Long compId);
 
-    List<CompilationDto> getAll(Boolean pinned, Integer from, Integer size);
+    List<CompilationDto> getAllCompilations(Boolean pinned, Integer from, Integer size);
 
-    CompilationDto update(Long compId, UpdateCompilationRequest compilationRequest);
+    CompilationDto updateCompilation(Long compId, UpdateCompilationRequest compilationRequest);
 }

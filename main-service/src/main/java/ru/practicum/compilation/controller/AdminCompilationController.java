@@ -21,25 +21,25 @@ public class AdminCompilationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompilationDto addEventCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
+    public CompilationDto addCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
 
         log.info("Calling POST: /admin/compilations with 'compilationDto': {}", compilationDto);
-        return compilationService.add(compilationDto);
+        return compilationService.addCompilation(compilationDto);
     }
 
     @PatchMapping("/{compId}")
-    public CompilationDto updateEventCompilation(@PathVariable Long compId,
-                                                 @RequestBody @Valid UpdateCompilationRequest compRequest) {
+    public CompilationDto updateCompilation(@PathVariable Long compId,
+                                            @RequestBody @Valid UpdateCompilationRequest compRequest) {
 
         log.info("Calling PATCH: /admin/compilations/{compId} with 'compId': {}", compId);
-        return compilationService.update(compId, compRequest);
+        return compilationService.updateCompilation(compId, compRequest);
     }
 
     @DeleteMapping("/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEventCompilation(@PathVariable Long compId) {
+    public void deleteCompilation(@PathVariable Long compId) {
 
         log.info("Calling DELETE: /admin/compilations/{compId} with 'compId': {}", compId);
-        compilationService.delete(compId);
+        compilationService.deleteCompilation(compId);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(path = "/compilations")
 @RequiredArgsConstructor
 @Slf4j
-public class CompilationController {
+public class PublicCompilationController {
 
     private final CompilationService compilationService;
 
@@ -25,14 +25,14 @@ public class CompilationController {
                                                 @Positive @RequestParam(defaultValue = "10") Integer size) {
 
         log.info("Calling GET: /compilations with 'pinned': {}, 'from': {}, 'size': {}", pinned, from, size);
-        return compilationService.getAll(pinned, from, size);
+        return compilationService.getAllCompilations(pinned, from, size);
     }
 
     @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto getCompilationById(@PathVariable Long compId) {
 
-        log.info("Calling GET: /compilations/{compId} with 'compId': {}", compId);
-        return compilationService.get(compId);
+        log.info("[Public Compilation Controller] received a public request GET /compilations/{}", compId);
+        return compilationService.getCompilation(compId);
     }
 }

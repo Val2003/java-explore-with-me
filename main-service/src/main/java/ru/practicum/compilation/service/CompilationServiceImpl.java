@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.compilation.dto.CompilationDto;
 import ru.practicum.compilation.dto.NewCompilationDto;
 import ru.practicum.compilation.dto.UpdateCompilationRequest;
-import ru.practicum.compilation.mapper.CompilationMapper;
+import ru.practicum.compilation.dto.CompilationMapper;
 import ru.practicum.compilation.model.Compilation;
 import ru.practicum.compilation.repository.CompilationRepository;
 import ru.practicum.event.model.Event;
@@ -28,7 +28,7 @@ public class CompilationServiceImpl implements CompilationService {
     private final CompilationMapper compilationMapper;
 
     @Override
-    public CompilationDto add(NewCompilationDto compilationDto) {
+    public CompilationDto addCompilation(NewCompilationDto compilationDto) {
         Compilation compilation = compilationMapper.newCompilationDtoToCompilation(compilationDto);
 
         if (compilationDto.getEvents() != null) {
@@ -42,7 +42,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public CompilationDto update(Long compId, UpdateCompilationRequest compRequest) {
+    public CompilationDto updateCompilation(Long compId, UpdateCompilationRequest compRequest) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> {
             throw new ResourceNotFoundException("Compilation with id = " + compId + " doesn't exist.");
         });
@@ -55,7 +55,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public CompilationDto get(Long compId) {
+    public CompilationDto getCompilation(Long compId) {
         Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> {
             throw new ResourceNotFoundException("Compilation with id = " + compId + " doesn't exist.");
         });
@@ -64,7 +64,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public List<CompilationDto> getAll(Boolean pinned, Integer from, Integer size) {
+    public List<CompilationDto> getAllCompilations(Boolean pinned, Integer from, Integer size) {
         Sort sort = Sort.by("id").ascending();
         Pageable pageable = PageRequest.of(from / size, size, sort);
 
@@ -78,7 +78,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public void delete(Long compId) {
+    public void deleteCompilation(Long compId) {
         try {
             compilationRepository.deleteById(compId);
         } catch (EmptyResultDataAccessException e) {
