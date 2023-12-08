@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.model.App;
 
 import java.util.Optional;
+
 @Repository
 public interface AppRepository extends JpaRepository<App, Long> {
     Optional<App> findByName(String app);
