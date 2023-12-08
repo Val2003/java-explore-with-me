@@ -21,16 +21,16 @@ public class AdminCompilationController {
     private final CompilationService compilationService;
 
     @PostMapping
-    public ResponseEntity <CompilationDto> addCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
+    public ResponseEntity<CompilationDto> addCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
 
         log.info("Calling POST: /admin/compilations with 'compilationDto': {}", compilationDto);
-        return  ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(compilationService.addCompilation(compilationDto));
     }
 
     @PatchMapping("/{compId}")
     public ResponseEntity<CompilationDto> updateCompilation(@PathVariable Long compId,
-                                            @RequestBody @Valid UpdateCompilationRequest compRequest) {
+                                                            @RequestBody @Valid UpdateCompilationRequest compRequest) {
 
         log.info("Calling PATCH: /admin/compilations/{compId} with 'compId': {}", compId);
         return ResponseEntity.status(HttpStatus.OK)
@@ -38,7 +38,7 @@ public class AdminCompilationController {
     }
 
     @DeleteMapping("/{compId}")
-    public  ResponseEntity<HttpStatus> deleteCompilation(@PathVariable Long compId) {
+    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable Long compId) {
 
         log.info("Calling DELETE: /admin/compilations/{compId} with 'compId': {}", compId);
         compilationService.deleteCompilation(compId);

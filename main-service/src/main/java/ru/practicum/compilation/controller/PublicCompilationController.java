@@ -32,7 +32,7 @@ public class PublicCompilationController {
 
     @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity <CompilationDto> getCompilationById(@PathVariable Long compId) {
+    public ResponseEntity<CompilationDto> getCompilationById(@PathVariable Long compId) {
 
         log.info("[Public Compilation Controller] received a public request GET /compilations/{}", compId);
         return ResponseEntity
