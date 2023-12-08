@@ -3,6 +3,8 @@ package ru.practicum.event.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
@@ -22,7 +24,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public List<EventShortDto> getAll(
+    public ResponseEntity<List<EventShortDto>> getAll(
             @RequestParam(required = false) String text,
             @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) Boolean paid,
@@ -40,13 +42,15 @@ public class EventController {
                         " 'rangeEnd': {}, 'onlyAvailable': {}, 'sort': {}, 'from': {}, 'size': {}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
 
-        return eventService.getAll(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, from, size, sort, request);
+        return ResponseEntity
+                .status(HttpStatus.OK).body(eventService.getAll(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, from, size, sort, request));
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getById(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<EventFullDto> getById(@PathVariable Long id, HttpServletRequest request) {
 
         log.info("Calling GET: /events/{id} with 'id': {}",  id);
-        return eventService.get(id, request);
+        return ResponseEntity
+                .status(HttpStatus.OK).body(eventService.get(id, request));
     }
 }

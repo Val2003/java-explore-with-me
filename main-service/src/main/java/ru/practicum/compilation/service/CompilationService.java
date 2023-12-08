@@ -7,7 +7,7 @@ import ru.practicum.compilation.dto.UpdateCompilationRequest;
 
 import java.util.List;
 
-@Service
+
 public interface CompilationService {
     CompilationDto addCompilation(NewCompilationDto compilationDto);
 
