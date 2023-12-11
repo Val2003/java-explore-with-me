@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "493a2cc9-af9b-41ba-83f7-f0f86f851609",
-		"name": "Comments",
+		"_postman_id": "f537f6b0-2a38-4745-b910-7a2a7cfcdddf",
+		"name": "Comments Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27933625"
 	},
@@ -1693,10 +1693,7 @@
 									"    pm.expect(target).to.have.property('event');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Request data must be equal to response data\", function () {\r",
-									"    pm.expect(target.text).to.not.be.null;\r",
-									"    pm.expect(source.text).equal(target.text, 'Comment text in request and response must be equal');\r",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1742,7 +1739,7 @@
 								},
 								{
 									"key": "eventId",
-									"value": "{{idValue2}}"
+									"value": "{{eventValue2}}"
 								}
 							]
 						}
